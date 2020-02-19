@@ -1,4 +1,4 @@
-import time, sys
+import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -66,7 +66,7 @@ def find_contact(listing_url, username, passkey, chromedriver):
 
     if not contacts:
         print("No contacts found, sorry.")
-        sys.exit()
+        exit()
 
     print("Found the following contacts:\n")
     for idx, (name, title, profile) in enumerate(contacts[:20]):

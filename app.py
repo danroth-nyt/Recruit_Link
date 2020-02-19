@@ -1,16 +1,18 @@
-import time, re, pyperclip
+import time, re, pyperclip, os
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from find_contact import *
 from pyhunter import PyHunter
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def main():
-    linkedin_username = "FILL"
-    linkedin_passkey = "FILL"
-    hunter_apikey = "FILL"
-    chromedriver_dir = "FILL"
+    linkedin_username = os.getenv("LINKEDIN_USER")
+    linkedin_passkey = os.getenv("LINKEDIN_PASS")
+    hunter_apikey = os.getenv("HUNTER_API")
+    chromedriver_dir = os.getenv("CHROMEDRIVER")
 
     listing_url = input("Welcome to Recruit_Link!  Please enter a job listing's LinkedIn url:\n")
     name, title, profile, company, company_website, job_title = \
@@ -21,7 +23,7 @@ def main():
     email_message = f"Hi {name.split()[0]},\n" \
               f"\n" \
               f"I hope this email finds you well.  I just recently saw a posting for a {job_title} position at {company}" \
-              f" and would love to learn more.  My experience SKILLS HERE feel like a great fit for the role.\n" \
+              f" and would love to learn more.  My experience SKILLS HERE feels like a great fit for the role.\n" \
               f"\n" \
               f"Could you tell me more about the data science team and what it's like to work for the company?  " \
               f"I believe you would have great insight as a {title.strip()} for {company}.\n" \
@@ -42,7 +44,7 @@ def main():
                                    .replace(r"\.com.*$", ".com")\
                                    .replace("/", "")
     patterns = ["finitiallast", "finitial.last", "firstlast", "first.last",
-                "first", "last", "firstlinitial", "first.linitial"]
+                "first", "last", "firstlinitial", "first.linitial", "first_linitial", "finitial_last"]
     patterns = [pattern
                     .replace("first", name.split()[0])
                     .replace("last", name.split()[1])
@@ -73,7 +75,6 @@ def main():
                   f"{profile}")
             pyperclip.copy(linkedin_message)
             print("Message pasted to clipboard.")
-            exit()
             exit()
         else:
             continue
